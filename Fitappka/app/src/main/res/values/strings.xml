@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Fitappka</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="new_training_label_text">Nowy Trening</string>
+    <string name="new_exercise_label_text">Nowe Ćwiczenie</string>
+    <string name="new_training_desc">Przyscisk stwórz nowy trening</string>
+    <string name="new_exercise_desc">Przycisk stwórz nowe ćwiczenie</string>
+    <string name="statistics_text">Statystyki</string>
+    <string name="do_training_text">Zrób trening</string>
+    <string name="do_training_desc">Przycisk zrób trening</string>
+    <string name="statistics_desc">Przyscisk statystyki</string>
+    <string name="plan_text">Zaplanuj</string>
+    <string name="plan_desc">Przycisk zaplanuj</string>
 </resources>
