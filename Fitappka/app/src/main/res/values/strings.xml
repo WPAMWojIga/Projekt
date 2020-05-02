@@ -1,7 +1,6 @@
 <resources>
+    <!-- Strings to MainMenuFragment -->
     <string name="app_name">Fitappka</string>
-    <string name="edit_message">Enter a message</string>
-    <string name="button_send">Send</string>
     <string name="new_training_label_text">Nowy Trening</string>
     <string name="new_exercise_label_text">Nowe Ćwiczenie</string>
     <string name="new_training_desc">Przyscisk stwórz nowy trening</string>
@@ -12,4 +11,15 @@
     <string name="statistics_desc">Przyscisk statystyki</string>
     <string name="plan_text">Zaplanuj</string>
     <string name="plan_desc">Przycisk zaplanuj</string>
+
+    <!-- Strings to NewTrainingFragment -->
+    <string name="training_name_hint">Podaj nazwę treningu</string>
+    <string name="add_exercise_text">Dodaj ćwiczenie</string>
+    <string name="add_break">Dodaj przerwę</string>
+    <string name="exercise_specification_title">Szczegóły ćwiczenia</string>
+    <string-array name="training_types">
+        <item>Ramiona</item>
+        <item>Korpus</item>
+        <item>Nogi</item>
+    </string-array>
 </resources>
