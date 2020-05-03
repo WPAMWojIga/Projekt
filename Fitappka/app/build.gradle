@@ -55,7 +55,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
     // Material design components
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
 
     // Androidx RecyclerView Component
     implementation 'androidx.recyclerview:recyclerview:1.0.0'

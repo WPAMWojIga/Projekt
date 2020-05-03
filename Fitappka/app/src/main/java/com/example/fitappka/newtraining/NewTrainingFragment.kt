@@ -11,6 +11,7 @@ import android.widget.*
 // DataBinding
 import com.example.fitappka.R
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import com.example.fitappka.databinding.FragmentTrainingNewBinding
 
 // Navigation
@@ -77,6 +78,8 @@ class NewTrainingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        //TODO: fix adding prev element when coming back to app -> flag?
 
         var args = NewTrainingFragmentArgs.fromBundle(arguments!!)
         // NPE handler
