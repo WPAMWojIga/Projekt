@@ -21,7 +21,8 @@ class ExerciseSpecificationFragment: Fragment() {
         )
 
         binding.button.setOnClickListener {view: View ->
-            var text: String? = binding.editText.text.toString()
+            // TextEdit never returns null, at least it returns empty String - ""
+            var text: String = binding.editText.text.toString()
             if (text != ""){
                 Log.i("ExerciseSpecFragment", text)
                 view.findNavController().navigate(ExerciseSpecificationFragmentDirections.actionExerciseSpecificationFragmentToNewTrainingFragment(text))

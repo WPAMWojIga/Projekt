@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
 // Adding Navigation Component to the app for handling backstacks, fragment transactions and safe arguments etc.
 apply plugin: 'androidx.navigation.safeargs'
 
@@ -46,10 +47,16 @@ dependencies {
     // Androidx Constraint Layout Component
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    //Androidx Navigation Component
+    // Androidx Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0'
 
-    //Androidx Lifecycle Component - for ViewModelProviders
+    // Androidx Lifecycle Component - for ViewModelProviders
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+
+    // Material design components
+    implementation 'com.google.android.material:material:1.1.0'
+
+    // Androidx RecyclerView Component
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
 }

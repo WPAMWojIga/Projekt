@@ -1,6 +1,7 @@
 package com.example.fitappka.newtraining
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,17 +19,13 @@ import androidx.navigation.findNavController
 // ViewModel Architecture
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_training_new.*
 
 class NewTrainingFragment : Fragment() {
 
     private lateinit var viewModel: NewTrainingViewModel
-
-    private lateinit var exerciseList: ArrayList<String>
-    private lateinit var exerciseAdapter: ArrayAdapter<String>
-
-    private lateinit var exerciseText: EditText
-    private lateinit var addButton: Button
-    private lateinit var lv: ListView
+    private val exerciseListRecycleViewAdapter: ExerciseListRecycleViewAdapter = ExerciseListRecycleViewAdapter(listOf(), { viewModel.removeExercise(it) })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +33,6 @@ class NewTrainingFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding: FragmentTrainingNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_new, container, false)
-
-        // ViewModel
-        viewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
 
         // Spinner
         val spinner: Spinner = binding.trainingType
@@ -62,12 +56,40 @@ class NewTrainingFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        // ViewModel
+        viewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
+
+        // RecycleView Observer
+        viewModel.exercisesList.observe(this, Observer {
+            exerciseListRecycleViewAdapter.apply{
+                exerciseList = it
+                notifyDataSetChanged()
+            }
+        })
+
+        exercise_list_recycle_view.apply{
+            layoutManager = LinearLayoutManager(context)
+            adapter = exerciseListRecycleViewAdapter
+        }
+    }
+
     override fun onStart() {
         super.onStart()
+
         var args = NewTrainingFragmentArgs.fromBundle(arguments!!)
-        if (args.exerciseName != ""){
-            viewModel.addExercise(args.exerciseName)
+        // NPE handler
+        Log.i("NewTrainingFrag", args?.exerciseName ?: "No arguments")
+        if (args?.exerciseName != "" && args?.exerciseName != null){
+            viewModel.addExercise(args.exerciseName.toString())
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
 }
