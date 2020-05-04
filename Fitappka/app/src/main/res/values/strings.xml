@@ -17,6 +17,7 @@
     <string name="add_exercise_text">Dodaj ćwiczenie</string>
     <string name="add_break">Dodaj przerwę</string>
     <string name="exercise_specification_title">Szczegóły ćwiczenia</string>
+    <string name="break_label_text">Ustaw czas przerwy</string>
     <string-array name="training_types">
         <item>Ramiona</item>
         <item>Korpus</item>

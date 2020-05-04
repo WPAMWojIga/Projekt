@@ -9,12 +9,15 @@ import android.widget.EditText
 import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import com.example.fitappka.databinding.ActivityMainBinding
 
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.fitappka.newtraining.BreakDialogFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
