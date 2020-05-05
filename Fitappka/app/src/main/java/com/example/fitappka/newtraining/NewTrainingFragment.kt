@@ -22,27 +22,17 @@ import androidx.navigation.findNavController
 // ViewModel Architecture
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_training_new.*
 
-class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() {
+class NewTrainingFragment: Fragment() {
 
-    private lateinit var viewModel: NewTrainingViewModel
-    private val exerciseListRecycleViewAdapter: ExerciseListRecycleViewAdapter = ExerciseListRecycleViewAdapter(listOf(), { viewModel.removeExercise(it) })
+    private lateinit var newTrainingViewModel: NewTrainingViewModel
+    private val exerciseListRecycleViewAdapter: ExerciseListRecycleViewAdapter = ExerciseListRecycleViewAdapter(listOf(), { newTrainingViewModel.removeExercise(it) })
 
     private val breakAlertDialogFragment: BreakDialogFragment = BreakDialogFragment()
-
-    // The dialog fragment receives a reference to this Fragment through the
-    // Fragment.onAttach() callback, which it uses to call the following methods
-    // defined by the NoticeDialogFragment.NoticeDialogListener interface
-    override fun onDialogPositiveClick(dialog: DialogFragment) {
-        // User touched the dialog's positive button
-        viewModel.addExercise("Przerwa")
-    }
-
-    override fun onDialogNegativeClick(dialog: DialogFragment) {
-        // User touched the dialog's negative button
-    }
+    private lateinit var breakDialogViewModel: BreakDialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +40,10 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
     ): View? {
         // Inflate the layout for this fragment
         val binding: FragmentTrainingNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_new, container, false)
+
+        // ViewModels
+        newTrainingViewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
+        breakDialogViewModel = ViewModelProviders.of(this).get(BreakDialogViewModel::class.java)
 
         // Spinner
         val spinner: Spinner = binding.trainingType
@@ -67,7 +61,6 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
 
         // Add break dialog box
         binding.addBreakButton.setOnClickListener {
-            //breakAlertDialogFragment.setTargetFragment(this, 0)
             breakAlertDialogFragment.show(activity!!.supportFragmentManager, "BreakAlertDialog")
         }
 
@@ -76,9 +69,6 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
             view.findNavController().navigate(NewTrainingFragmentDirections.actionNewTrainingFragmentToExerciseSpecificationFragment())
         }
 
-        // ViewModel
-        viewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
-
         //TODO: fix rotating issue ... (adding unnecessary item)
 
         // Adding Exercise to ViewModel
@@ -86,7 +76,7 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
         // NPE handler
         Log.i("NewTrainingFrag", args?.exerciseName ?: "No arguments")
         if (args?.exerciseName != "" && args?.exerciseName != null){
-            viewModel.addExercise(args.exerciseName.toString())
+            newTrainingViewModel.addExercise(args.exerciseName.toString())
         }
 
         return binding.root
@@ -94,9 +84,15 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // BreakDialog Observer
+        breakDialogViewModel.settingDoneFlag.observe(this, Observer {
+            if(breakDialogViewModel.settingDoneFlag.value ?: false){
+                breakDialogViewModel.settingDoneFlag.value = false
+            }
+        })
 
         // RecycleView Observer
-        viewModel.exercisesList.observe(this, Observer {
+        newTrainingViewModel.exercisesList.observe(this, Observer {
             exerciseListRecycleViewAdapter.apply{
                 exerciseList = it
                 notifyDataSetChanged()
@@ -111,7 +107,7 @@ class NewTrainingFragment: BreakDialogFragment.NoticeDialogListener, Fragment() 
 
     override fun onResume() {
         super.onResume()
-        viewModel.onResume()
+        newTrainingViewModel.onResume()
     }
 
 }
