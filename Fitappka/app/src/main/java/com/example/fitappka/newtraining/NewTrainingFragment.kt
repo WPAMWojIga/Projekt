@@ -1,19 +1,15 @@
 package com.example.fitappka.newtraining
 
-import android.app.AlertDialog
-import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.LayoutInflater
 import android.widget.*
 
 // DataBinding
 import com.example.fitappka.R
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
 import com.example.fitappka.databinding.FragmentTrainingNewBinding
 
 // Navigation
@@ -22,9 +18,11 @@ import androidx.navigation.findNavController
 // ViewModel Architecture
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_training_new.*
+
+// Log & Debugging purposes
+import android.util.Log
 
 class NewTrainingFragment: Fragment() {
 
@@ -43,7 +41,7 @@ class NewTrainingFragment: Fragment() {
 
         // ViewModels
         newTrainingViewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
-        breakDialogViewModel = ViewModelProviders.of(this).get(BreakDialogViewModel::class.java)
+        breakDialogViewModel = ViewModelProviders.of(activity!!).get(BreakDialogViewModel::class.java)
 
         // Spinner
         val spinner: Spinner = binding.trainingType
@@ -84,10 +82,12 @@ class NewTrainingFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         // BreakDialog Observer
         breakDialogViewModel.settingDoneFlag.observe(this, Observer {
             if(breakDialogViewModel.settingDoneFlag.value ?: false){
-                breakDialogViewModel.settingDoneFlag.value = false
+                newTrainingViewModel.addExercise("Przerwa ".plus(breakDialogViewModel.counter.value.toString()).plus(" min"))
+                breakDialogViewModel.unSetFlag()
             }
         })
 

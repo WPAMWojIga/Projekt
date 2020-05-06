@@ -10,23 +10,31 @@ class BreakDialogViewModel: ViewModel(){
     val counter: LiveData<Int>
         get() = _counter
 
-    val settingDoneFlag = MutableLiveData<Boolean>()
+    private val _settingDoneFlag = MutableLiveData<Boolean>()
+    val settingDoneFlag: LiveData<Boolean>
+        get() = _settingDoneFlag
 
     init {
         _counter.value = 0
-        settingDoneFlag.value = false
+        _settingDoneFlag.value = false
     }
 
     fun increment(){
         _counter.value = _counter.value?.plus(1)
-        Log.i("BDF", "inc")
     }
 
     fun decrement(){
         val sth = _counter.value?.compareTo(0) ?: 0
         if(sth > 0) {
             _counter.value = _counter.value?.minus(1)
-            Log.i("BDF", "dec")
         }
+    }
+
+    fun setFlag(){
+        _settingDoneFlag.value = true
+    }
+
+    fun unSetFlag(){
+        _settingDoneFlag.value = false
     }
 }
