@@ -14,7 +14,7 @@ abstract class FitappkaDatabase: RoomDatabase(){
     // Companion object allows clients to access database methods without instantiating object
     companion object {
 
-        // Volatile makes variable always updated and same for all accessing threads
+        // Volatile makes variable always updated and the same for all accessing threads
         @Volatile
         private var INSTANCE: FitappkaDatabase? = null
 
