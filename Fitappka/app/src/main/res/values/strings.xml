@@ -23,4 +23,17 @@
         <item>Korpus</item>
         <item>Nogi</item>
     </string-array>
+
+    <string-array name="measure_types">
+        <item>Czas</item>
+        <item>Powtórzenia</item>
+    </string-array>
+
+    <string name="calibration_instruction">
+        Załóż czujnik w odpowiednim miejscu, \n
+        połącz się z nim
+        i nie ruszaj przez kilka sekund. \n
+        Następnie wykonaj 5 powtórzeń z \n kilkusekundowymi odstępami.
+
+    </string>
 </resources>
