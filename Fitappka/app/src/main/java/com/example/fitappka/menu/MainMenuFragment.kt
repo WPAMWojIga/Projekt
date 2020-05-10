@@ -30,7 +30,7 @@ class MainMenuFragment : Fragment() {
         }
 
         binding.newExercise.setOnClickListener { view: View ->
-            view.findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewExerciseFragment("siemanko"))
+            view.findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewExerciseFragment())
         }
 
         return binding.root

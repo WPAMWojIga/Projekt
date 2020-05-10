@@ -40,6 +40,18 @@
         android:id="@+id/newExerciseFragment"
         android:name="com.example.fitappka.newexercise.NewExerciseFragment"
         android:label="NewExerciseFragment" >
-        <argument android:name="zmienna" />
+        <action
+            android:id="@+id/action_newExerciseFragment_to_exerciseCalibrationFragment"
+            app:destination="@id/exerciseCalibrationFragment"
+             />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseCalibrationFragment"
+        android:name="com.example.fitappka.newexercise.ExerciseCalibrationFragment"
+        android:label="ExerciseCalibrationFragment" >
+
+        <argument
+            android:name="exercise_data"
+            app:argType="string[]" />
     </fragment>
 </navigation>
