@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_training_new.*
 
 // Log & Debugging purposes
 import android.util.Log
+import com.example.fitappka.database.Exercise
+import com.example.fitappka.database.FitappkaDatabase
 
 class NewTrainingFragment: Fragment() {
 
@@ -37,12 +39,17 @@ class NewTrainingFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         val binding: FragmentTrainingNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_new, container, false)
 
         // ViewModels
-        newTrainingViewModel = ViewModelProviders.of(this).get(NewTrainingViewModel::class.java)
+        newTrainingViewModel = ViewModelProviders.of(requireActivity()).get(NewTrainingViewModel::class.java)
         breakDialogViewModel = ViewModelProviders.of(activity!!).get(BreakDialogViewModel::class.java)
 
+        //Exercises from Database
+        val database = FitappkaDatabase.getInstance(requireActivity().applicationContext)
+        newTrainingViewModel.setAvailableExercises(database.fitappkaDatabaseDao.getAllExercises())
+        database.close()
         // Spinner
         val spinner: Spinner = binding.trainingType
         // Create an ArrayAdapter using the string array and a default spinner layout

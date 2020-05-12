@@ -9,8 +9,16 @@ import android.widget.ArrayAdapter
 
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.room.Room
 import com.example.fitappka.databinding.FragmentExerciseNewBinding
 import com.example.fitappka.R
+import com.example.fitappka.database.Exercise
+import com.example.fitappka.database.FitappkaDatabase
+import com.example.fitappka.database.FitappkaDatabaseDao
+import kotlin.concurrent.thread
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
+
 
 class NewExerciseFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater,
@@ -46,10 +54,29 @@ class NewExerciseFragment: Fragment(){
 
         binding.newExToCalibrationButton.setOnClickListener {
             when (binding.measureType.selectedItem) {
-                "Czas" -> {}
+                "Czas" -> {
+
+                    lateinit var exercise :Exercise
+                        val database =
+                            FitappkaDatabase.getInstance(requireActivity().applicationContext)
+                        exercise = Exercise(
+                            0,
+                            binding.newExName.text.toString(),
+                            binding.measureType.selectedItem.toString(),
+                            binding.trainingType.selectedItem.toString(),
+                            null
+                        )
+                        database.fitappkaDatabaseDao.insertExercise(exercise)
+                    view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano ćwiczenie :)", Snackbar.LENGTH_LONG).show() }
+                    view?.findNavController()?.navigate(NewExerciseFragmentDirections.actionNewExerciseFragmentToMainMenuFragment())
+
+                }
                 "Powtórzenia" -> {
-                    val args : Array<String> = arrayOf(binding.newExName.text.toString(), binding.trainingType.selectedItem.toString(),
-                        binding.measureType.selectedItem.toString(), binding.newExSensorPlacement.text.toString())
+                    val args : Array<String> = arrayOf(
+                         binding.newExName.text.toString(),
+                         binding.measureType.selectedItem.toString(),
+                         binding.trainingType.selectedItem.toString(),
+                         binding.newExSensorPlacement.text.toString())
                     view?.findNavController()?.navigate(NewExerciseFragmentDirections.actionNewExerciseFragmentToExerciseCalibrationFragment(args))
                 }
             }

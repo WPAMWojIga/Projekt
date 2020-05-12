@@ -44,14 +44,19 @@
             android:id="@+id/action_newExerciseFragment_to_exerciseCalibrationFragment"
             app:destination="@id/exerciseCalibrationFragment"
              />
+        <action
+            android:id="@+id/action_newExerciseFragment_to_mainMenuFragment"
+            app:destination="@+id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/exerciseCalibrationFragment"
         android:name="com.example.fitappka.newexercise.ExerciseCalibrationFragment"
         android:label="ExerciseCalibrationFragment" >
-
         <argument
             android:name="exercise_data"
             app:argType="string[]" />
+        <action
+            android:id="@+id/action_exerciseCalibrationFragment_to_mainMenuFragment"
+            app:destination="@+id/mainMenuFragment" />
     </fragment>
 </navigation>

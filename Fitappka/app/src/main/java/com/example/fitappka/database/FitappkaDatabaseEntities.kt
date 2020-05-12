@@ -14,13 +14,19 @@ data class Exercise(
     val exerciseTRType: String,
 
     @ColumnInfo(name = "exercise_bp_type")
-    val exerciseBPType: String
+    val exerciseBPType: String,
+
+    @ColumnInfo (name = "exercise_sensor_placement" )
+    val exerciseSensorPlacement : String?
 )
 
 @Entity(tableName = "training_table")
 data class Training(
     @PrimaryKey(autoGenerate = true)
     val trainingId: Long,
+
+    @ColumnInfo (name = "training_name")
+    val trainingName: String,
 
     @ColumnInfo(name = "training_bp_type")
     val trainingBPType: String
@@ -41,12 +47,3 @@ data class TrainingExerciseCrossRef(
     val exerciseTRNumber: Int
 )
 
-data class TrainingWithExercises(
-    @Embedded val training: Training,
-    @Relation(
-        parentColumn = "trainingId",
-        entityColumn = "exerciseId",
-        associateBy = Junction(TrainingExerciseCrossRef::class)
-    )
-    val exercises: List<Exercise>
-)

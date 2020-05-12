@@ -5,12 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Exercise::class, Training::class, TrainingExerciseCrossRef::class, TrainingWithExercises::class], version = 1, exportSchema = false)
+@Database(entities = [Exercise::class, Training::class, TrainingExerciseCrossRef::class], version = 1, exportSchema = false)
 abstract class FitappkaDatabase: RoomDatabase(){
 
     // Connecting DAO to interact with database (you can have multiple DAO's)
     abstract val fitappkaDatabaseDao: FitappkaDatabaseDao
-
     // Companion object allows clients to access database methods without instantiating object
     companion object {
 
@@ -31,6 +30,7 @@ abstract class FitappkaDatabase: RoomDatabase(){
                             "fitappka_database"
                         )
                         .fallbackToDestructiveMigration()
+                        .allowMainThreadQueries()
                         .build()
                     INSTANCE = instance
                 }
