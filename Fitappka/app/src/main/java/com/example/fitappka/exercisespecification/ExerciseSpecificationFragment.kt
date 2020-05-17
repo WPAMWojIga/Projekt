@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitappka.R
 import com.example.fitappka.databinding.FragmentSpecificationExerciseBinding
 import com.example.fitappka.newtraining.NewTrainingViewModel
-import kotlinx.android.synthetic.main.fragment_specification_exercise.*
 
 class ExerciseSpecificationFragment: Fragment() {
 
@@ -31,30 +29,37 @@ class ExerciseSpecificationFragment: Fragment() {
         )
 
         viewModel = ViewModelProviders.of(requireActivity()).get(NewTrainingViewModel::class.java)
-        availableExAdapter = AvailableExercisesRecycleViewAdapter(viewModel.availableExercisesList)
+        viewModel.setAvailableExercises()
+        availableExAdapter = AvailableExercisesRecycleViewAdapter(viewModel)
         layoutmanager = LinearLayoutManager(this.requireContext())
-
         binding.availableExRecycler.apply {
             adapter = availableExAdapter
             layoutManager = layoutmanager
         }
 
-        /*binding.exConfirmButton.setOnClickListener {view: View ->
-            // TextEdit never returns null, at least it returns empty String - ""
-            *//*var text: String = binding.editText.text.toString()
-            if (text != ""){
-                Log.i("ExerciseSpecFragment", text)//Hide the keyboard.
-                val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
-                view.findNavController().navigate(ExerciseSpecificationFragmentDirections.actionExerciseSpecificationFragmentToNewTrainingFragment(text))
+        binding.exConfirmButton.setOnClickListener {
+
+            val measure = binding.exTrNumberInsert.text.toString().toIntOrNull()
+            val position  = viewModel.exerciseSelectedPosition
+            if ( measure != null &&
+                measure > 0  && position != -1) {
+                if (viewModel.addedExercises.find{ array -> array[0] == position } == null)
+                viewModel.addToTraining(position, measure)
+                viewModel.addExercise(viewModel.availableExercisesList.value!![position].exerciseName)
+                view?.findNavController()?.navigate(ExerciseSpecificationFragmentDirections.actionExerciseSpecificationFragmentToNewTrainingFragment())
+
             }
-            }
-            */
 
 
-
-
-
+        }
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }

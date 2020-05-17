@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/available_trainings_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cc99ff"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/available_training_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="example_training"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@id/available_training_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/available_training_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/available_training_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</com.google.android.material.card.MaterialCardView>

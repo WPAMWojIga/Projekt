@@ -42,16 +42,17 @@ class ExerciseCalibrationFragment : Fragment() {
                 }
                 binding.calibrationExDetails.run { text = names}
             }
-            lateinit var exercise :Exercise
-            exercise = Exercise(
+
+            val exercise = Exercise(
                 0, args.exerciseData[0],
                 args.exerciseData[1],
                 args.exerciseData[2],
                 args.exerciseData[3]
             )
-            database.fitappkaDatabaseDao.insertExercise(exercise)
+            thread {
+                database.fitappkaDatabaseDao.insertExercise(exercise)
+            }
             view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano ćwiczenie :)", Snackbar.LENGTH_LONG).show() }
-            database.close()
             view?.findNavController()?.navigate(ExerciseCalibrationFragmentDirections.actionExerciseCalibrationFragmentToMainMenuFragment())
 
         }

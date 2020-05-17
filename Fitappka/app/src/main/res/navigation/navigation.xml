@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_newExerciseFragment"
             app:destination="@id/newExerciseFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_trainingSelectionFragment"
+            app:destination="@+id/trainingSelectionFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/newTrainingFragment"
@@ -21,10 +25,9 @@
         <action
             android:id="@+id/action_newTrainingFragment_to_exerciseSpecificationFragment"
             app:destination="@id/exerciseSpecificationFragment" />
-        <argument
-            android:name="exerciseName"
-            app:argType="string"
-            app:nullable="true" />
+        <action
+            android:id="@+id/action_newTrainingFragment_to_mainMenuFragment"
+            app:destination="@+id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/exerciseSpecificationFragment"
@@ -58,5 +61,23 @@
         <action
             android:id="@+id/action_exerciseCalibrationFragment_to_mainMenuFragment"
             app:destination="@+id/mainMenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainingSelectionFragment"
+        android:name="com.example.fitappka.traininginprogress.TrainingSelectionFragment"
+        android:label="TrainingSelectionFragment">
+        <action
+            android:id="@+id/action_trainingSelectionFragment_to_trainingInProgressFragment"
+            app:destination="@+id/trainingInProgressFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trainingInProgressFragment"
+        android:name="com.example.fitappka.traininginprogress.TrainingInProgressFragment"
+        android:label="TrainingInProgressFragment">
+        <action
+            android:id="@+id/action_trainingInProgressFragment_to_mainMenuFragment"
+            app:destination="@+id/mainMenuFragment"/>
     </fragment>
 </navigation>

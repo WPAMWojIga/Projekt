@@ -26,12 +26,15 @@ interface FitappkaDatabaseDao {
     @Delete
     fun deleteTraining(training: Training)
     @Query("SELECT * FROM training_table ORDER BY trainingId DESC")
-    fun getAllTrainings(): LiveData<List<Training>> // Not sure if LiveData in our case is proper
+    fun getAllTrainings(): List<Training>// Not sure if LiveData in our case is proper
 
     @Insert
     fun insertTrainingExerciseCrossRef(trainingExerciseCrossRef: TrainingExerciseCrossRef)
 
-/*    @Transaction
+    @Query ( "SELECT * FROM training_exercises_table ORDER BY trainingId" )
+    fun getAllCrossRefs(): List<TrainingExerciseCrossRef>
+
+    @Transaction
     @Query("SELECT * FROM training_table")
     fun getTrainingsWithExercises(): List<TrainingWithExercises>
 
@@ -43,7 +46,12 @@ interface FitappkaDatabaseDao {
             associateBy = Junction(TrainingExerciseCrossRef::class)
         )
         public val exercises: List<Exercise>
-    )*/
+    )
+
+    @Query ("SELECT * FROM training_exercises_table WHERE trainingId = :key ORDER BY exercise_order")
+    fun getCrossRefsInTraining(key: Long) : List<TrainingExerciseCrossRef>
+
+
 
 /*    @Transaction
     @Query ("SELECT exerciseOrder,exerciseName,exerciseTRNubmer,exerciseBreakTime" +

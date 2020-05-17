@@ -26,13 +26,17 @@ class MainMenuFragment : Fragment() {
         )
 
         binding.newTraining.setOnClickListener { view: View ->
-            view.findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewTrainingFragment(null))
+            view.findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewTrainingFragment())
         }
 
         binding.newExercise.setOnClickListener { view: View ->
             view.findNavController().navigate(MainMenuFragmentDirections.actionMainMenuFragmentToNewExerciseFragment())
         }
 
+        binding.doTraining.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(MainMenuFragmentDirections.actionMainMenuFragmentToTrainingSelectionFragment())
+        }
         return binding.root
     }
 

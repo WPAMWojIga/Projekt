@@ -15,7 +15,7 @@
     <!-- Strings to NewTrainingFragment -->
     <string name="training_name_hint">Podaj nazwę treningu</string>
     <string name="add_exercise_text">Dodaj ćwiczenie</string>
-    <string name="add_break">Dodaj przerwę</string>
+    <string name="add_break">Dodaj \nprzerwę</string>
     <string name="exercise_specification_title">Wybierz ćwiczenie</string>
     <string name="break_label_text">Ustaw czas przerwy</string>
     <string-array name="training_types">

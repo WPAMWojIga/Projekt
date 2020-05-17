@@ -25,14 +25,20 @@ import kotlinx.android.synthetic.main.fragment_training_new.*
 import android.util.Log
 import com.example.fitappka.database.Exercise
 import com.example.fitappka.database.FitappkaDatabase
+import com.example.fitappka.database.FitappkaRepository
+import com.google.android.material.snackbar.Snackbar
+import kotlin.concurrent.thread
 
 class NewTrainingFragment: Fragment() {
 
     private lateinit var newTrainingViewModel: NewTrainingViewModel
     private val exerciseListRecycleViewAdapter: ExerciseListRecycleViewAdapter = ExerciseListRecycleViewAdapter(listOf(), { newTrainingViewModel.removeExercise(it) })
 
+    private lateinit var binding: FragmentTrainingNewBinding
     private val breakAlertDialogFragment: BreakDialogFragment = BreakDialogFragment()
     private lateinit var breakDialogViewModel: BreakDialogViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,16 +46,19 @@ class NewTrainingFragment: Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        val binding: FragmentTrainingNewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_training_new, container, false)
+        binding= DataBindingUtil.inflate(inflater, R.layout.fragment_training_new, container, false)
 
         // ViewModels
         newTrainingViewModel = ViewModelProviders.of(requireActivity()).get(NewTrainingViewModel::class.java)
-        breakDialogViewModel = ViewModelProviders.of(activity!!).get(BreakDialogViewModel::class.java)
+        breakDialogViewModel = ViewModelProviders.of(requireActivity()).get(BreakDialogViewModel::class.java)
 
         //Exercises from Database
-        val database = FitappkaDatabase.getInstance(requireActivity().applicationContext)
-        newTrainingViewModel.setAvailableExercises(database.fitappkaDatabaseDao.getAllExercises())
-        database.close()
+
+        /*thread {
+            val database = FitappkaDatabase.getInstance(requireActivity().applicationContext)
+            newTrainingViewModel.setAvailableExercises(database.fitappkaDatabaseDao.getAllExercises())
+            database.close()
+        }*/
         // Spinner
         val spinner: Spinner = binding.trainingType
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -66,7 +75,7 @@ class NewTrainingFragment: Fragment() {
 
         // Add break dialog box
         binding.addBreakButton.setOnClickListener {
-            breakAlertDialogFragment.show(activity!!.supportFragmentManager, "BreakAlertDialog")
+            breakAlertDialogFragment.show(requireActivity().supportFragmentManager, "BreakAlertDialog")
         }
 
         // Navigation
@@ -74,15 +83,31 @@ class NewTrainingFragment: Fragment() {
             view.findNavController().navigate(NewTrainingFragmentDirections.actionNewTrainingFragmentToExerciseSpecificationFragment())
         }
 
+        binding.saveTrainingButton.setOnClickListener {
+            val trainingName = binding.trainingName.text.toString()
+            val trainingBPType = binding.trainingType.selectedItem.toString()
+                thread {
+                    newTrainingViewModel.saveTraining(
+
+                        trainingName = trainingName,
+                        trainingBPtype = trainingBPType
+                    )
+                    view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano trening :)", Snackbar.LENGTH_LONG).show() }
+                }
+            view?.findNavController()?.navigate(NewTrainingFragmentDirections.actionNewTrainingFragmentToMainMenuFragment())
+
+        }
+
         //TODO: fix rotating issue ... (adding unnecessary item)
 
-        // Adding Exercise to ViewModel
+        /*// Adding Exercise to ViewModel
         var args = NewTrainingFragmentArgs.fromBundle(arguments!!)
         // NPE handler
         Log.i("NewTrainingFrag", args?.exerciseName ?: "No arguments")
         if (args?.exerciseName != "" && args?.exerciseName != null){
             newTrainingViewModel.addExercise(args.exerciseName.toString())
-        }
+            newTrainingViewModel.exerciseSelectedPosition = -1
+        }*/
 
         return binding.root
     }
@@ -115,6 +140,14 @@ class NewTrainingFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         newTrainingViewModel.onResume()
+        binding.trainingName.setText( newTrainingViewModel.trainingName)
+        binding.trainingType.setSelection(newTrainingViewModel.selectedBPType)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        newTrainingViewModel.trainingName = binding.trainingName.text.toString()
+        newTrainingViewModel.selectedBPType = binding.trainingType.selectedItemPosition
     }
 
 }

@@ -54,12 +54,14 @@ dependencies {
 
     // Androidx Lifecycle Component - for ViewModelProviders
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     // Material design components
     implementation "com.google.android.material:material:$material_version"
 
     // Androidx RecyclerView Component
     implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
+    implementation "androidx.recyclerview:recyclerview-selection:1.0.0"
 
     // Androidx Room database
     implementation "androidx.room:room-runtime:$room_version"

@@ -57,16 +57,18 @@ class NewExerciseFragment: Fragment(){
                 "Czas" -> {
 
                     lateinit var exercise :Exercise
-                        val database =
-                            FitappkaDatabase.getInstance(requireActivity().applicationContext)
-                        exercise = Exercise(
-                            0,
-                            binding.newExName.text.toString(),
-                            binding.measureType.selectedItem.toString(),
-                            binding.trainingType.selectedItem.toString(),
-                            null
-                        )
-                        database.fitappkaDatabaseDao.insertExercise(exercise)
+                        thread {
+                            val database =
+                                FitappkaDatabase.getInstance(requireActivity().applicationContext)
+                            exercise = Exercise(
+                                0,
+                                binding.newExName.text.toString(),
+                                binding.measureType.selectedItem.toString(),
+                                binding.trainingType.selectedItem.toString(),
+                                null
+                            )
+                            database.fitappkaDatabaseDao.insertExercise(exercise)
+                        }
                     view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano ćwiczenie :)", Snackbar.LENGTH_LONG).show() }
                     view?.findNavController()?.navigate(NewExerciseFragmentDirections.actionNewExerciseFragmentToMainMenuFragment())
 
