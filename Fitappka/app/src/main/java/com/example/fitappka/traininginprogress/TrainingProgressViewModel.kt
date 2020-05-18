@@ -1,6 +1,7 @@
 package com.example.fitappka.traininginprogress
 
 import android.content.Context
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,10 @@ class TrainingProgressViewModel() : ViewModel() {
 
     private val fitappkaRepository = FitappkaRepository
     var currentExercise = 0
+    var currentExFinished : Boolean = false
+    private lateinit var _countDownTimer : ExCountdownTimer
+    val countdownTimer : ExCountdownTimer
+    get() = _countDownTimer
 
     private var _availableTrainings = MutableLiveData<List<Training>> ()
     val availableTrainings : LiveData<List<Training>>
@@ -55,11 +60,43 @@ class TrainingProgressViewModel() : ViewModel() {
     fun trainingFinished() : Boolean =
         currentExercise > _trainingsWithExercises.value!![selectedTrainingPosition].exercises.lastIndex
 
+    fun isCurrentTimeMeasured()  : Boolean {
+        return (trainingsWithExercises.value!![selectedTrainingPosition].exercises[currentExercise].exerciseTRType == "Czas")
+
+    }
+
+    fun setTimerForExercise ( ) {
+        if (isCurrentTimeMeasured()) {
+            val exTime = _trainingExercisesCrossRefs[currentExercise].exerciseTRNumber
+            _countDownTimer = ExCountdownTimer((exTime*1000).toLong(), 1000)
+        }
+    }
+
+    fun startExTimer() {
+        _countDownTimer.start()
+    }
+
     fun onResume() {
         //refreshTrainings()
         refreshTrainingsWithExercises()
     }
 
+
+    class ExCountdownTimer(millisInFuture: Long,
+                           countDownInterval: Long
+    ) : CountDownTimer(millisInFuture, countDownInterval) {
+
+        var finished: Boolean = false
+        var secondsLeft :  MutableLiveData<Int> = MutableLiveData<Int>((millisInFuture/1000).toInt())
+        override fun onFinish() {
+            finished = true
+        }
+
+        override fun onTick(millisUntilFinished: Long) {
+            secondsLeft.postValue((millisUntilFinished / 1000).toInt())
+        }
+
+    }
 
 
 }

@@ -73,7 +73,7 @@ class NewTrainingViewModel: ViewModel(){
             val crossRef = TrainingExerciseCrossRef (
                 trainingId,
                 exerciseId,
-                order,
+                addedExercises.lastIndex-order,
                 -1,
                 addedExercises[order][1]
             )
