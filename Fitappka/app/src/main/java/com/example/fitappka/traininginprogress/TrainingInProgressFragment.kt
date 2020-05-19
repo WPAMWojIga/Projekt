@@ -128,7 +128,8 @@ class TrainingInProgressFragment : Fragment() {
         }
 
         binding.trainingInProgressBackground.setOnClickListener {
-            if(viewModel.isCurrentTimeMeasured() && !viewModel.countdownTimer.finished) viewModel.startExTimer()
+            if(viewModel.isCurrentTimeMeasured() && !viewModel.countdownTimer.finished &&
+                    viewModel.countdownTimer.secondsLeft.value!! == viewModel.trainingExerciseCrossRef[viewModel.currentExercise].exerciseTRNumber) viewModel.startExTimer()
         }
 
 

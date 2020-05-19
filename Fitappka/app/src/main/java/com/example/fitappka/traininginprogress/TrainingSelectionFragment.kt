@@ -24,7 +24,7 @@ class TrainingSelectionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel  = ViewModelProviders.of(requireActivity()).get(TrainingProgressViewModel::class.java)
-        thread { viewModel.refreshTrainingsWithExercises() }
+        thread { viewModel.onResume() }
         viewModel.trainingsWithExercises.observe(viewLifecycleOwner,
             Observer  {
                 availableTrainingsRecyclerAdapter.updateAvailableTrainings(it)
@@ -37,14 +37,12 @@ class TrainingSelectionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding : FragmentTrainingSelectionBinding  = DataBindingUtil.inflate(inflater, R.layout.fragment_training_selection, container, false)
-
         binding.lifecycleOwner = this
         val linearLayoutManager = LinearLayoutManager(this.requireContext())
         binding.availableTrainingsRecycler.apply {
             adapter = availableTrainingsRecyclerAdapter
             layoutManager = linearLayoutManager
         }
-
 
         binding.trainingSelectedButton.setOnClickListener{
             if (availableTrainingsRecyclerAdapter.selectedTrainingPosition != -1 ) {

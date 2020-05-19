@@ -79,6 +79,7 @@ class TrainingProgressViewModel() : ViewModel() {
     fun onResume() {
         //refreshTrainings()
         refreshTrainingsWithExercises()
+        _selectedTrainingPosition = -1
     }
 
 
