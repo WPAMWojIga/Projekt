@@ -29,17 +29,6 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.
        val trainingName: TextView = itemView.findViewById(R.id.available_training_name)
        val trainingInfo: TextView = itemView.findViewById(R.id.available_training_info)
 
-
-      /* itemView.setOnClickListener
-       {
-           if (selectedTrainingPosition == -1) {
-
-               holder.exCardBackground.background = ColorDrawable(Color.parseColor("#7f00ff"))
-           }
-               holder.exCardBackground.background = ColorDrawable(Color.parseColor("#cc99ff"))
-           }*/
-
-
        }
 
 

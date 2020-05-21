@@ -43,7 +43,6 @@ class TrainingSelectionFragment : Fragment() {
             adapter = availableTrainingsRecyclerAdapter
             layoutManager = linearLayoutManager
         }
-
         binding.trainingSelectedButton.setOnClickListener{
             if (availableTrainingsRecyclerAdapter.selectedTrainingPosition != -1 ) {
                 viewModel.setSelectedTrainingPosition(availableTrainingsRecyclerAdapter.selectedTrainingPosition)
@@ -58,6 +57,7 @@ class TrainingSelectionFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         thread { viewModel.onResume() }
+        availableTrainingsRecyclerAdapter.selectedTrainingPosition = -1
 
 
     }
