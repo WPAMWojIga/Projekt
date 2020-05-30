@@ -60,6 +60,7 @@ class ExerciseSpecificationFragment: Fragment() {
     }
 
     override fun onResume() {
+        viewModel.exerciseSelectedPosition = -1
         super.onResume()
     }
 }

@@ -14,13 +14,16 @@ class NewTrainingViewModel: ViewModel(){
     private val fitappkaRepository = FitappkaRepository
     var selectedBPType : Int = 0
     var trainingName : String = ""
+
     private val exercisesListRepository: ExerciseListRepository = ExerciseListRepository
     private val _exercisesList = MutableLiveData<List<String>>()
     val exercisesList: LiveData<List<String>>
         get() = _exercisesList
+
     private var _addedExercises : MutableList<Array<Int>> = mutableListOf()
     val addedExercises : MutableList<Array<Int>>
             get() = _addedExercises
+
     var exerciseSelectedPosition : Int = -1
 
     private var _availableExercisesList = MutableLiveData<List<Exercise>>()

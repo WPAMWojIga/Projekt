@@ -54,9 +54,7 @@ class ExerciseCalibrationFragment : Fragment() {
             }
             view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano ćwiczenie :)", Snackbar.LENGTH_LONG).show() }
             view?.findNavController()?.navigate(ExerciseCalibrationFragmentDirections.actionExerciseCalibrationFragmentToMainMenuFragment())
-
         }
-
 
         return binding.root
     }
