@@ -57,7 +57,6 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel : NewTrainingVi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-
         availableExList.value!![position].apply {
             val info: String = exerciseBPType + "\n" + exerciseTRType
             val name: String = exerciseId.toString() + ". " + exerciseName
@@ -72,8 +71,6 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel : NewTrainingVi
                     viewModel.exerciseSelectedPosition = -1
                     holder.exCardBackground.background = ColorDrawable(Color.parseColor("#cc99ff"))
                 }
-
-
             }
 
     }

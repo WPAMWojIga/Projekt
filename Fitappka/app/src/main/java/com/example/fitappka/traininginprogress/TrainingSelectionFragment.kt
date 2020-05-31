@@ -58,8 +58,6 @@ class TrainingSelectionFragment : Fragment() {
         super.onResume()
         thread { viewModel.onResume() }
         availableTrainingsRecyclerAdapter.selectedTrainingPosition = -1
-
-
     }
 
 

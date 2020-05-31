@@ -1,25 +1,18 @@
 package com.example.fitappka
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.ComponentName
+import android.content.ServiceConnection
 import android.os.Bundle
-
-import android.view.View
-import android.widget.EditText
-import androidx.drawerlayout.widget.DrawerLayout
-
+import android.os.IBinder
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
-import com.example.fitappka.databinding.ActivityMainBinding
-
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.fitappka.bluetooth.BluetoothLeService.LocalBinder
+import com.example.fitappka.bluetooth.BlunoLibrary
 import com.example.fitappka.database.FitappkaDatabase
-import com.example.fitappka.database.FitappkaRepository
-import com.example.fitappka.newtraining.BreakDialogFragment
+import com.example.fitappka.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     companion object {
