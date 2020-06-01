@@ -62,6 +62,8 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.
                 exs += exercises[i].exerciseName + "\n"
             }
             holder.trainingInfo.text = exs
+
+
         }
 
         holder.itemView.setOnClickListener {
