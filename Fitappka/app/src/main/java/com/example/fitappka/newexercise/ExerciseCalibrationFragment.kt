@@ -123,7 +123,6 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
 
         }
 
-
         return binding.root
     }
 

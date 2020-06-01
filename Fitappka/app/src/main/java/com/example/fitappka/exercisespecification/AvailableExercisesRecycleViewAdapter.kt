@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitappka.R
 import com.example.fitappka.database.Exercise
 import com.example.fitappka.newtraining.NewTrainingViewModel
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.withContext
 
-class AvailableExercisesRecycleViewAdapter(private val viewModel : NewTrainingViewModel): RecyclerView.Adapter<AvailableExercisesRecycleViewAdapter.ViewHolder>(){
+class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingViewModel): RecyclerView.Adapter<AvailableExercisesRecycleViewAdapter.ViewHolder>(){
 
     private val availableExList = viewModel.availableExercisesList
    /* private var tracker: SelectionTracker<Long>? = null
@@ -34,8 +37,9 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel : NewTrainingVi
     class ViewHolder(cardView: View) : RecyclerView.ViewHolder(cardView) {
         val exerciseInfo: TextView = itemView.findViewById(R.id.exercise_info)
         val exName : TextView = itemView.findViewById(R.id.ex_name)
-        val exCardBackground: ConstraintLayout = itemView.findViewById<ConstraintLayout>(R.id.available_ex_card_background)
+        val exCardBackground: MaterialCardView = itemView.findViewById<MaterialCardView>(R.id.available_ex_card_background)
         var isSelected : Boolean = false
+        val cardDefaultBackground = exCardBackground.background
         fun getItemDetails() : ItemDetailsLookup.ItemDetails<Long> {
             return object : ItemDetailsLookup.ItemDetails<Long> () {
                 override fun getSelectionKey(): Long? = itemId
@@ -70,6 +74,9 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel : NewTrainingVi
                 } else if (viewModel.exerciseSelectedPosition == position) {
                     viewModel.exerciseSelectedPosition = -1
                     holder.exCardBackground.background = ColorDrawable(Color.parseColor("#cc99ff"))
+                    holder.exCardBackground.background = holder.cardDefaultBackground
+                } else {
+                    holder.itemView.let { it1 -> Snackbar.make(it1,"Proszę odznaczyć poprzednio wybrane ćwiczenie", Snackbar.LENGTH_LONG).show() }
                 }
             }
 

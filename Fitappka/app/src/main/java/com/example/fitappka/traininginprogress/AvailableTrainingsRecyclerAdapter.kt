@@ -13,19 +13,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitappka.R
 import com.example.fitappka.database.FitappkaDatabaseDao
 import com.example.fitappka.database.Training
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.training_select_card.view.*
 
 class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.TrainingWithExercises>) : RecyclerView.Adapter<AvailableTrainingsRecyclerAdapter.ViewHolder>() {
 
     var selectedTrainingPosition = -1
+
     private var _availableTrainingsList  = allTrainings
     val availableTrainingsList : List<FitappkaDatabaseDao.TrainingWithExercises>
         get() = _availableTrainingsList
 
+    lateinit var prevItemView: View
+
    class ViewHolder(cardView: View) : RecyclerView.ViewHolder(cardView) {
 
-       val trainingCardBackground: ConstraintLayout =
+       val trainingCardBackground: MaterialCardView =
            itemView.findViewById(R.id.available_trainings_background)
+       val cardDefaultBackground = trainingCardBackground.background
        val trainingName: TextView = itemView.findViewById(R.id.available_training_name)
        val trainingInfo: TextView = itemView.findViewById(R.id.available_training_info)
 
@@ -58,13 +64,22 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.
             holder.trainingInfo.text = exs
         }
 
-        holder.itemView.setOnClickListener{
-            if (selectedTrainingPosition == -1 ) {
+        holder.itemView.setOnClickListener {
+            if (selectedTrainingPosition == -1) {
                 selectedTrainingPosition = position
-                holder.trainingCardBackground.background  = ColorDrawable(Color.parseColor("#7f00ff"))
-            } else if ( selectedTrainingPosition == position ){
+                holder.trainingCardBackground.background =
+                    ColorDrawable(Color.parseColor("#7f00ff"))
+            } else if (selectedTrainingPosition == position) {
                 selectedTrainingPosition = -1
-                holder.trainingCardBackground.background  = ColorDrawable(Color.parseColor("#cc99ff"))
+                holder.trainingCardBackground.background = holder.cardDefaultBackground
+            } else {
+                holder.itemView.let { it1 ->
+                    Snackbar.make(
+                        it1,
+                        "Proszę odznaczyć poprzednio wybrane ćwiczenie",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
