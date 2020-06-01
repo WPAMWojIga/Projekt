@@ -49,6 +49,14 @@ class NewTrainingViewModel: ViewModel(){
         refreshExercises() // Necessary? Not sure
     }
 
+    fun deleteExercise(exerciseId: Long){
+        val toRemove = _availableExercisesList.value!!.find { exercise -> exercise.exerciseId == exerciseId}!!
+        val idToRemove  = _availableExercisesList.value!!.indexOf(toRemove)
+        _addedExercises.remove(_addedExercises.find { array -> array[0] == idToRemove })
+        fitappkaRepository.deleteExercise(toRemove)
+        refreshExercises() // Necessary? Not sure
+    }
+
     fun onResume() {
         refreshExercises()
         exerciseSelectedPosition = -1
