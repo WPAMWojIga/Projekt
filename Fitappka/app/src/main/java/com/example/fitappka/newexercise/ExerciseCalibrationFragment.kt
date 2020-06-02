@@ -158,11 +158,11 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
 
     override fun onConectionStateChange(theConnectionState: connectionStateEnum?) { //Once connection state changes, this function will be called
         when (theConnectionState) {
-            connectionStateEnum.isConnected -> binding.calibrationScanButton.text = "Connected"
-            connectionStateEnum.isConnecting -> binding.calibrationScanButton.text = "Connecting"
-            connectionStateEnum.isToScan -> binding.calibrationScanButton.text = "Scan"
-            connectionStateEnum.isScanning -> binding.calibrationScanButton.text = "Scanning"
-            connectionStateEnum.isDisconnecting -> binding.calibrationScanButton.text = "isDisconnecting"
+            connectionStateEnum.isConnected -> binding.calibrationScanButton.text = "Połączono"
+            connectionStateEnum.isConnecting -> binding.calibrationScanButton.text = "Łączę"
+            connectionStateEnum.isToScan -> binding.calibrationScanButton.text = "Skanuj"
+            connectionStateEnum.isScanning -> binding.calibrationScanButton.text = "Skanuję"
+            connectionStateEnum.isDisconnecting -> binding.calibrationScanButton.text = "Rozłączam"
             else -> {
             }
         }
@@ -178,11 +178,12 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
             ) {
                 val string2 = theString.substring(0, theString.lastIndexOf('\r'))
                 if (bluetoothData.getNumAngles(string2, 3)) {
-                    binding.calibrationExDetails.run { setText("Zmierzone!") }
+                    binding.calibrationExDetails.run { setText("Zmierzone! ") }
                     val reps = bluetoothData.getReps()
                     bluetoothData.getSchema(reps)
                     bluetoothData.saveSchemaToFile(exName, requireContext())
                     bluetoothData.readFromFile(exName,requireContext())
+                    binding.calibrationExDetails.textSize = binding.calibrationExDetails.textSize*2
                 }
                 if (bluetoothData.repFinished()) {
                     reps += 1

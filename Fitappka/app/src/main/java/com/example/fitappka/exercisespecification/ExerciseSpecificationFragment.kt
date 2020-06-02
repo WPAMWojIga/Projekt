@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,7 @@ import com.example.fitappka.newtraining.NewTrainingViewModel
 class ExerciseSpecificationFragment: Fragment() {
 
     private lateinit var viewModel : NewTrainingViewModel
-    private lateinit var availableExAdapter : AvailableExercisesRecycleViewAdapter
+    private var availableExAdapter = AvailableExercisesRecycleViewAdapter(mutableListOf())
 
     private lateinit var layoutmanager : LinearLayoutManager
     override fun onCreateView(inflater: LayoutInflater,
@@ -30,12 +31,19 @@ class ExerciseSpecificationFragment: Fragment() {
 
         viewModel = ViewModelProviders.of(requireActivity()).get(NewTrainingViewModel::class.java)
         viewModel.setAvailableExercises()
-        availableExAdapter = AvailableExercisesRecycleViewAdapter(viewModel)
+        //availableExAdapter.setAvailableExercises(viewModel.availableExercisesList.value!!)
+        availableExAdapter.setViewModel(viewModel)
         layoutmanager = LinearLayoutManager(this.requireContext())
         binding.availableExRecycler.apply {
             adapter = availableExAdapter
             layoutManager = layoutmanager
         }
+
+        viewModel.availableExercisesList.observe(viewLifecycleOwner,
+            Observer  {
+                availableExAdapter.setAvailableExercises(it)
+            }
+        )
 
         binding.exConfirmButton.setOnClickListener {
 

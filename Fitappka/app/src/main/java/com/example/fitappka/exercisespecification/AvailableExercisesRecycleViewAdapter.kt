@@ -14,14 +14,16 @@ import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitappka.R
 import com.example.fitappka.database.Exercise
+import com.example.fitappka.database.FitappkaDatabaseDao
 import com.example.fitappka.newtraining.NewTrainingViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.withContext
 
-class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingViewModel): RecyclerView.Adapter<AvailableExercisesRecycleViewAdapter.ViewHolder>(){
+class AvailableExercisesRecycleViewAdapter(exercises : MutableList<Exercise>): RecyclerView.Adapter<AvailableExercisesRecycleViewAdapter.ViewHolder>(){
 
-    private var availableExList = viewModel.availableExercisesList
+    private var availableExList = exercises
+    private lateinit var viewModel : NewTrainingViewModel
    /* private var tracker: SelectionTracker<Long>? = null
     public val sTracker : SelectionTracker<Long>?
         get() = tracker
@@ -33,7 +35,9 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingVie
     override fun getItemId(position: Int): Long {
         return super.getItemId(position)
     }
-
+     fun setViewModel(model: NewTrainingViewModel) {
+         viewModel = model
+     }
 
     class ViewHolder(cardView: View) : RecyclerView.ViewHolder(cardView) {
         val exerciseInfo: TextView = itemView.findViewById(R.id.exercise_info)
@@ -55,14 +59,14 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingVie
         return ViewHolder(exerciseCardView)
     }
 
-    fun getItem(position: Int) : Exercise = availableExList.value!![position]
-    fun getPosition(exercise : Exercise) = availableExList.value!!.indexOf(exercise)
+    fun getItem(position: Int) : Exercise = availableExList[position]
+    fun getPosition(exercise : Exercise) = availableExList.indexOf(exercise)
 
-    override fun getItemCount(): Int = availableExList.value!!.size
+    override fun getItemCount(): Int = availableExList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        availableExList.value!![position].apply {
+        availableExList[position].apply {
             val info: String = exerciseBPType + "\n" + exerciseTRType
             val name: String = exerciseId.toString() + ". " + exerciseName
             holder.exerciseInfo.text = info
@@ -70,9 +74,10 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingVie
         }
 
         holder.itemView.findViewById<Button>(R.id.delete_ex_button).setOnClickListener {
-            viewModel.deleteExercise(availableExList.value!![position].exerciseId)
+            //viewModel.removeExercise(availableExList.value!![position].exerciseName)
+            viewModel.deleteExercise(availableExList[position].exerciseId)
             viewModel.setAvailableExercises()
-            this.notifyItemRemoved(position)
+            //this.notifyItemRemoved(position)
         }
 
         holder.itemView.setOnClickListener {
@@ -89,6 +94,10 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingVie
 
     }
 
+    fun setAvailableExercises(exercises : List<Exercise>){
+        availableExList = exercises as MutableList<Exercise>
+        notifyDataSetChanged()
+    }
    /* public fun setTracker(t : SelectionTracker<Long>) {
         tracker = t
     }*/

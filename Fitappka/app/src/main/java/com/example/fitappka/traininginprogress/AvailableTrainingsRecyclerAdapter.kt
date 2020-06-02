@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.training_select_card.view.*
 class AvailableTrainingsRecyclerAdapter(allTrainings : MutableList<FitappkaDatabaseDao.TrainingWithExercises>) : RecyclerView.Adapter<AvailableTrainingsRecyclerAdapter.ViewHolder>() {
 
     var selectedTrainingPosition = -1
-
+    private lateinit var viewModel: TrainingProgressViewModel
     private var _availableTrainingsList  = allTrainings
     val availableTrainingsList : MutableList<FitappkaDatabaseDao.TrainingWithExercises>
         get() = _availableTrainingsList
@@ -71,8 +71,8 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : MutableList<FitappkaDatab
 
         holder.itemView.findViewById<Button>(R.id.delete_tr_button).setOnClickListener {
             FitappkaRepository.deleteTraining(_availableTrainingsList[position].training)
-            _availableTrainingsList.removeAt(position)
-            this.notifyItemRemoved(position)
+            viewModel.refreshTrainingsWithExercises()
+            // this.notifyItemRemoved(position)
         }
 
         holder.itemView.setOnClickListener {
@@ -99,5 +99,11 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : MutableList<FitappkaDatab
         _availableTrainingsList = trainings as MutableList<FitappkaDatabaseDao.TrainingWithExercises>
         notifyDataSetChanged()
     }
+
+    fun setViewModel(model : TrainingProgressViewModel) {
+        viewModel = model
+    }
+
+
 
 }

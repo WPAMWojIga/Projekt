@@ -24,6 +24,7 @@ class TrainingSelectionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel  = ViewModelProviders.of(requireActivity()).get(TrainingProgressViewModel::class.java)
+        availableTrainingsRecyclerAdapter.setViewModel(viewModel)
         thread { viewModel.onResume() }
         viewModel.trainingsWithExercises.observe(viewLifecycleOwner,
             Observer  {
