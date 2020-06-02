@@ -12,6 +12,14 @@ object FitappkaRepository {
         fitappkaDao.insertExercise(exercise)
     }
 
+    public fun deleteExercise(exercise: Exercise){
+        fitappkaDao.deleteExercise(exercise)
+    }
+
+    public fun deleteTraining(training: Training){
+        fitappkaDao.deleteTraining(training)
+    }
+
     public fun getAllExercises() : List<Exercise> {
         return fitappkaDao.getAllExercises()
     }

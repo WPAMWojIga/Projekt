@@ -5,24 +5,27 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitappka.R
+import com.example.fitappka.database.FitappkaDatabase
 import com.example.fitappka.database.FitappkaDatabaseDao
+import com.example.fitappka.database.FitappkaRepository
 import com.example.fitappka.database.Training
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.training_select_card.view.*
 
-class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.TrainingWithExercises>) : RecyclerView.Adapter<AvailableTrainingsRecyclerAdapter.ViewHolder>() {
+class AvailableTrainingsRecyclerAdapter(allTrainings : MutableList<FitappkaDatabaseDao.TrainingWithExercises>) : RecyclerView.Adapter<AvailableTrainingsRecyclerAdapter.ViewHolder>() {
 
     var selectedTrainingPosition = -1
 
     private var _availableTrainingsList  = allTrainings
-    val availableTrainingsList : List<FitappkaDatabaseDao.TrainingWithExercises>
+    val availableTrainingsList : MutableList<FitappkaDatabaseDao.TrainingWithExercises>
         get() = _availableTrainingsList
 
     lateinit var prevItemView: View
@@ -62,6 +65,14 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.
                 exs += exercises[i].exerciseName + "\n"
             }
             holder.trainingInfo.text = exs
+
+
+        }
+
+        holder.itemView.findViewById<Button>(R.id.delete_tr_button).setOnClickListener {
+            FitappkaRepository.deleteTraining(_availableTrainingsList[position].training)
+            _availableTrainingsList.removeAt(position)
+            this.notifyItemRemoved(position)
         }
 
         holder.itemView.setOnClickListener {
@@ -85,7 +96,7 @@ class AvailableTrainingsRecyclerAdapter(allTrainings : List<FitappkaDatabaseDao.
     }
 
     fun updateAvailableTrainings(trainings : List<FitappkaDatabaseDao.TrainingWithExercises>) {
-        _availableTrainingsList = trainings
+        _availableTrainingsList = trainings as MutableList<FitappkaDatabaseDao.TrainingWithExercises>
         notifyDataSetChanged()
     }
 

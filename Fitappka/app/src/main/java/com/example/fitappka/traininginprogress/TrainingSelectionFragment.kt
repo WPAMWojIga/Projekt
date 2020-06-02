@@ -20,7 +20,7 @@ class TrainingSelectionFragment : Fragment() {
 
     private lateinit var viewModel: TrainingProgressViewModel
     private val availableTrainingsRecyclerAdapter : AvailableTrainingsRecyclerAdapter
-            = AvailableTrainingsRecyclerAdapter(listOf())
+            = AvailableTrainingsRecyclerAdapter(mutableListOf())
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel  = ViewModelProviders.of(requireActivity()).get(TrainingProgressViewModel::class.java)

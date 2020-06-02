@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.selection.ItemDetailsLookup
@@ -20,7 +21,7 @@ import kotlinx.coroutines.withContext
 
 class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingViewModel): RecyclerView.Adapter<AvailableExercisesRecycleViewAdapter.ViewHolder>(){
 
-    private val availableExList = viewModel.availableExercisesList
+    private var availableExList = viewModel.availableExercisesList
    /* private var tracker: SelectionTracker<Long>? = null
     public val sTracker : SelectionTracker<Long>?
         get() = tracker
@@ -67,18 +68,24 @@ class AvailableExercisesRecycleViewAdapter(private val viewModel: NewTrainingVie
             holder.exerciseInfo.text = info
             holder.exName.text = name
         }
-            holder.itemView.setOnClickListener {
-                if (viewModel.exerciseSelectedPosition == -1) {
-                    viewModel.exerciseSelectedPosition = position
-                    holder.exCardBackground.background = ColorDrawable(Color.parseColor("#7f00ff"))
-                } else if (viewModel.exerciseSelectedPosition == position) {
-                    viewModel.exerciseSelectedPosition = -1
-                    holder.exCardBackground.background = ColorDrawable(Color.parseColor("#cc99ff"))
-                    holder.exCardBackground.background = holder.cardDefaultBackground
-                } else {
-                    holder.itemView.let { it1 -> Snackbar.make(it1,"Proszę odznaczyć poprzednio wybrane ćwiczenie", Snackbar.LENGTH_LONG).show() }
-                }
+
+        holder.itemView.findViewById<Button>(R.id.delete_ex_button).setOnClickListener {
+            viewModel.deleteExercise(availableExList.value!![position].exerciseId)
+            viewModel.setAvailableExercises()
+            this.notifyItemRemoved(position)
+        }
+
+        holder.itemView.setOnClickListener {
+            if (viewModel.exerciseSelectedPosition == -1) {
+                viewModel.exerciseSelectedPosition = position
+                holder.exCardBackground.background = ColorDrawable(Color.parseColor("#7f00ff"))
+            } else if (viewModel.exerciseSelectedPosition == position) {
+                viewModel.exerciseSelectedPosition = -1
+                holder.exCardBackground.background = holder.cardDefaultBackground
+            } else {
+                holder.itemView.let { it1 -> Snackbar.make(it1,"Proszę odznaczyć poprzednio wybrane ćwiczenie", Snackbar.LENGTH_LONG).show() }
             }
+        }
 
     }
 
