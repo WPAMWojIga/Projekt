@@ -35,9 +35,9 @@ class MainMenuFragment : Fragment() {
         }
 
         // Button handler - navigate to StatisticsFragment
-        binding.statistics.setOnClickListener { view: View ->
+       /* binding.statistics.setOnClickListener { view: View ->
             view.let { it1 -> Snackbar.make(it1,"W trakcie tworzenia :(", Snackbar.LENGTH_LONG).show() }
-        }
+        }*/
 
         // Button handler - navigate to NewTrainingFragment
         binding.newTraining.setOnClickListener { view: View ->

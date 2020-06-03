@@ -181,7 +181,8 @@ class BluetoothData {
     public fun repFinished() : Boolean {
         var repCount = 0
 
-        if (readSchema.isEmpty() || numAngles.isEmpty()) return false
+        //if (readSchema.isEmpty() || numAngles.isEmpty()) return false
+        if (numAngles.isEmpty()) return false
         val range : Int = 6
         var start : Int = 0
         var end : Int = 0

@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
+import com.example.fitappka.MainActivity.Companion.database
 import com.example.fitappka.R
 import com.example.fitappka.bluetooth.BlunoLibrary
 import com.example.fitappka.database.Exercise
@@ -35,6 +36,9 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
     private var reps = 0
     private var exName  :String = ""
     private lateinit var mainContext : Context
+    private var callibrated : Boolean = false
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
       //  mainContext = requireContext()
@@ -55,7 +59,7 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
         )
 
         val args = ExerciseCalibrationFragmentArgs.fromBundle(requireArguments())
-        binding.calibrationExDetails.run{setText(args.exerciseData[0]+"\n"+args.exerciseData[1])}
+        binding.calibrationExDetails.run{setText("Połącz się z czujnikiem lub dotknij ekranu, żeby zakończyć.")}
         exName = args.exerciseData[0]
         requestPermissions(
             arrayOf(
@@ -123,6 +127,22 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
 
         }
 
+        binding.callibrationBackground.setOnClickListener {
+            if (callibrated == true || binding.calibrationScanButton.text == "Skanuj") {
+                val exercise = Exercise(
+                    0, args.exerciseData[0],
+                    args.exerciseData[1],
+                    args.exerciseData[2],
+                    args.exerciseData[3]
+                )
+                thread {
+                    database?.fitappkaDatabaseDao?.insertExercise(exercise)
+                }
+                view?.let { it1 -> Snackbar.make(it1,"Pomyślnie dodano ćwiczenie :)", Snackbar.LENGTH_LONG).show() }
+                view?.findNavController()?.navigate(ExerciseCalibrationFragmentDirections.actionExerciseCalibrationFragmentToMainMenuFragment())
+            }
+        }
+
         return binding.root
     }
 
@@ -178,17 +198,18 @@ class ExerciseCalibrationFragment : BlunoLibrary() {
             ) {
                 val string2 = theString.substring(0, theString.lastIndexOf('\r'))
                 if (bluetoothData.getNumAngles(string2, 3)) {
-                    binding.calibrationExDetails.run { setText("Zmierzone! ") }
+                    binding.calibrationExDetails.run { setText("Zmierzone! Dotknij ekranu, żeby zakończyć :)") }
                     val reps = bluetoothData.getReps()
-                    bluetoothData.getSchema(reps)
-                    bluetoothData.saveSchemaToFile(exName, requireContext())
-                    bluetoothData.readFromFile(exName,requireContext())
-                    binding.calibrationExDetails.textSize = binding.calibrationExDetails.textSize*2
-                }
+                    //bluetoothData.getSchema(reps)
+                    //bluetoothData.saveSchemaToFile(exName, requireContext())
+                    //bluetoothData.readFromFile(exName,requireContext())
+                    //binding.calibrationExDetails.textSize = binding.calibrationExDetails.textSize*2
+                    callibrated = true
+                }/*
                 if (bluetoothData.repFinished()) {
                     reps += 1
                     binding.calibrationExDetails.text = reps.toString()
-                }
+                }*/
             }
 
         //The Serial data from the BLUNO may be sub-packaged, so using a buffer to hold the String is a good choice.
